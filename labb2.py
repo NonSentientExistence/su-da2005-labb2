@@ -63,7 +63,7 @@ while(running == True):
     # Checks menu choice for Hex to Dec
     elif user_menu_choice == 3:
         #Takes input from user and runs it in the full convert function (Dec -> Hex)
-        hexa_to_int_char_full(int(input("Ange ett heltal: ")))
+        tal = hexa_to_int_char_full(input("Ange ett hexadecimalt tal: "))
         print(tal)
 
     # check user input for exit app, stops while loop
