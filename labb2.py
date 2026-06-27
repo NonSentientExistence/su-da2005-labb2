@@ -1,44 +1,53 @@
-
 # Function to convert a int to hex within the range 0 - 15
 def int_to_hexa_char(tal):
+    #string of hexadecimal numbers in order
     hexa_chars = "0123456789ABCDEF"
 
-    #If compares tal for all possible inputs in range 0 - 15. Returns invalid input if not within 0 - 15. 
-    if tal == 0:
-        return 0
-    elif tal == 1:
-        return 1
-    elif tal == 2:
-        return 2
-    elif tal == 3:
-        return 3
-    elif tal == 4:
-        return 4
-    elif tal == 5:
-        return 5
-    elif tal == 6:
-        return 6
-    elif tal == 7:
-        return 7
-    elif tal == 8:
-        return 8
-    elif tal == 9:
-        return 9
-    elif tal == 10:
-        return "A"
-    elif tal == 11:
-        return "B"
-    elif tal == 12:
-        return "C"
-    elif tal == 13:
-        return "D"
-    elif tal == 14:
-        return "E"
-    elif tal == 15:
-        return "F"
-    else:
-        return "Invalid input"
+    #Returns the hexadecimal number at the index at tal (user input int)
+    return hexa_chars[tal]
 
-tal = int_to_hexa_char(int(input("Ange ett heltal mellan 0 och 15: ")))
+# Function for converting hexadecimal in range 0 - F to corresponding decimal number in range 0 - 15
+def hexa_to_int_char(tal):
+    hexa_chars = "0123456789ABCDEF"
+    #converts any input from user to upper to ensure match in hexa_chars
+    tal = tal.upper()
+    # Compares the input with the hexa chars var. Return index number. 
+    # Works up to f for hexa since they are specified in order in the hexa_chars variable
+    return hexa_chars.index(tal)
 
-print(tal)
+
+
+# Bool for while loop
+running = True
+# Default for user menu choice (0 = main menu)
+user_menu_choice = 0
+
+while(running == True):
+
+    if user_menu_choice == 0:
+
+        print("----- Meny -----")
+        print("1. Decimal heltal 0 - 15 till Hexadecimal 0 - F")
+        print("2. Hexadecimal 0 - F till decimal heltal 0 - 15")
+        print("9. Avsluta \n")
+
+        user_menu_choice = int(input("Vilken funktion vill du köra?"))
+
+        
+
+    # Checks menu choice for Dec to Hex 0 - F
+    elif user_menu_choice == 1:
+        #Takes input from user and runs it in the 0 -> 15, int -> hex function. Requires int as input
+        tal = int_to_hexa_char(int(input("Ange ett heltal mellan 0 och 15: ")))
+        print(tal)
+
+    # Checks menu choice for Hex to Dec 0 - 15
+    elif user_menu_choice == 2:
+        #Takes input from user and runs it in the 0 -> F, hex -> int function
+        tal = hexa_to_int_char(input("Ange ett hexadecimalt tal mellan 0 och F: "))
+        print(tal)
+
+    # check user input for exit app, stops while loop
+    elif user_menu_choice == 9:
+        running = False
+        continue
