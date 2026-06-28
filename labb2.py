@@ -166,7 +166,7 @@ while running:
         print("8. Validera en lista av hexadecimala tal")
         print("9. Avsluta \n")
 
-        user_menu_choice = int(input("Vilken funktion vill du köra?"))
+        user_menu_choice = int(input("Vilken funktion vill du köra?: "))
 
         
 
@@ -176,11 +176,21 @@ while running:
         tal = int_to_hexa_char(int(input("Ange ett heltal mellan 0 och 15: ")))
         print(tal)
 
+        # Asks user if they wish to run again or exit to main menu
+        print(("Vill du köra igen? Y för ja, annars tryck på en annan tangent för huvudmeny"))
+        if input().upper() != "Y":
+            user_menu_choice = 0
+
     # Checks menu choice for Hex to Dec 0 - 15
     elif user_menu_choice == 2:
         #Takes input from user and runs it in the 0 -> F, hex -> int function
         tal = hexa_char_to_int(input("Ange ett hexadecimalt tal mellan 0 och F: "))
         print(tal)
+
+        # Asks user if they wish to run again or exit to main menu
+        print(("Vill du köra igen? Y för ja, annars tryck på en annan tangent för huvudmeny"))
+        if input().upper() != "Y":
+            user_menu_choice = 0
 
     # Checks menu choice for Hex to Dec
     elif user_menu_choice == 3:
@@ -188,16 +198,31 @@ while running:
         tal = hexa_to_deci(input("Ange ett hexadecimalt tal: "))
         print(tal)
 
+        # Asks user if they wish to run again or exit to main menu
+        print(("Vill du köra igen? Y för ja, annars tryck på en annan tangent för huvudmeny"))
+        if input().upper() != "Y":
+            user_menu_choice = 0
+
     elif user_menu_choice == 4:
         #Takes input from user and runs it in the full convert function (Dec -> Hex)
         tal = deci_to_hexa(int(input("Ange ett heltal: ")))
         print(tal)
+
+        # Asks user if they wish to run again or exit to main menu
+        print(("Vill du köra igen? Y för ja, annars tryck på en annan tangent för huvudmeny"))
+        if input().upper() != "Y":
+            user_menu_choice = 0
 
     # Checks menu choice for prefix clean hexa
     elif user_menu_choice == 5:
         #Takes input from user and cleans prefixes (0 and X). Prints cleaned hexa
         tal = remove_prefix(input("Ange ett hexadecimalt tal: "))
         print(tal)
+
+        # Asks user if they wish to run again or exit to main menu
+        print(("Vill du köra igen? Y för ja, annars tryck på en annan tangent för huvudmeny"))
+        if input().upper() != "Y":
+            user_menu_choice = 0
 
     # Checks menu choice for add mixed list
     elif user_menu_choice == 6:
@@ -264,7 +289,7 @@ while running:
         print(f"\nDin ursprunliga lista var :")
         print(submit_list)
         # Awaits any input so user can read. Clears list before sending user to main menu
-        input("Tryck enter för att fortsätta...")
+        input("Tryck enter för att fortsätta till huvudmeny...")
         submit_list.clear()
         
         user_menu_choice = 0
@@ -274,6 +299,11 @@ while running:
         # Validates if user input is a valid hexadecimal
         tal = validate_hexa(input("Ange ett hexadecimalt tal: "))
         print(tal)
+
+        # Asks user if they wish to run again or exit to main menu
+        print(("Vill du köra igen? Y för ja, annars tryck på en annan tangent för huvudmeny"))
+        if input().upper() != "Y":
+            user_menu_choice = 0
 
     # Checks menu choice for list hexadecimal number validation
     elif user_menu_choice == 8:
