@@ -123,7 +123,6 @@ def validate_hexa(hexa):
     if hexa == "":
         return False
     # Cleans prefix and leading zeros. Remove prefix also sets hexa to upper case for compare
-    # Had to refactor remove_prefix as it would incorrectly return 0 for i.e. 0x00000x
     clean_hexa = remove_prefix(hexa)
 
     #var to hold valid hexadecimal chars.
@@ -215,7 +214,7 @@ while running:
 
     # Checks menu choice for prefix clean hexa
     elif user_menu_choice == 5:
-        #Takes input from user and cleans prefixes (0 and X). Prints cleaned hexa
+        #Takes input from user and cleans prefixes (0 and 0x). Prints cleaned hexa
         tal = remove_prefix(input("Ange ett hexadecimalt tal: "))
         print(tal)
 
@@ -259,7 +258,7 @@ while running:
             print("Din nuvarande lista innehåller följande tal: ")
             print(submit_list)
             # if input is y then continue add number loop. Anything else, stop loop
-            add_more = input("Lägga till ett till tal? (y för ja, annars valfritangent)")
+            add_more = input("Lägga till ett till tal? (y för ja, annars valfri tangent)")
             if add_more.upper() == "Y":
                 continue
             else: 
@@ -286,7 +285,7 @@ while running:
         # Prints result of calculated list. Then prints original list to confirm it hasn't been modified 
         print(f"\nResultatet är :")
         print(add_mixed_list(submit_list,output_form))
-        print(f"\nDin ursprunliga lista var :")
+        print(f"\nDin ursprungliga lista var :")
         print(submit_list)
         # Awaits any input so user can read. Clears list before sending user to main menu
         input("Tryck enter för att fortsätta till huvudmeny...")
@@ -309,7 +308,7 @@ while running:
     elif user_menu_choice == 8:
         # Bool for while loop
         adding = True
-        # Empty list fopr user input
+        # Empty list for user input
         validation_list = []
 
         while adding:
