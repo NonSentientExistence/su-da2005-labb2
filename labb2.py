@@ -83,13 +83,12 @@ def remove_prefix(hexa):
         if hexa == "":
             hexa = "0"
             cleaning = False
-        # Refactored to check for 0x or 0 prefix before loop. Incorrect return if input is i.e. 0x00000x, would return 0 when it should be X
         # check if the first char in hexa is 0
         # if true, save new string without first char into hexa var
         # Could also be refactored to use left slice to cut first char. Unsure if allowed so used this. 
         elif hexa[0] == "0":
             hexa = hexa[1:]
-        # if lead char in hexa isn't X or 0, stop while loop
+        # if lead char in hexa isn't 0, stop while loop
         else:
             cleaning = False
 
@@ -117,9 +116,14 @@ def add_mixed_list(input_list, output_form):
     else:
         print("Ogiltigt utformat angivet, ange h eller d")
         return
-    
+
+# Will accept 0x and leading 0s since it calls remove prefix before validating
 def validate_hexa(hexa):
+    # Returns False on empty string, can't use remove_prefix as lab requires remove_prefix to return 0 which is a valid hexadecimal
+    if hexa == "":
+        return False
     # Cleans prefix and leading zeros. Remove prefix also sets hexa to upper case for compare
+    # Had to refactor remove_prefix as it would incorrectly return 0 for i.e. 0x00000x
     clean_hexa = remove_prefix(hexa)
 
     #var to hold valid hexadecimal chars.
@@ -132,8 +136,15 @@ def validate_hexa(hexa):
         
     return True
 
-    
-    
+# Will accept 0x and leading 0s since validate_hexa calls remove_prefix
+def valid_hexa_list(hexa_validate_list):
+    # Empty list for valid hexadecimal numbers 
+    valid_hexa_list = []
+    for n in hexa_validate_list:
+        if validate_hexa(n):
+            valid_hexa_list.append(n)
+
+    return valid_hexa_list
 
 # Bool for while loop
 running = True
@@ -149,9 +160,10 @@ while running:
         print("2. Hexadecimal 0 - F till decimal heltal 0 - 15")
         print("3. Hexadecimalt till heltal konvertering")
         print("4. Heltal till hexadecimal konvertering")
-        print("5. Ta bort prefix från Hexadecimalt tal (0 och x)")
+        print("5. Ta bort prefix från Hexadecimalt tal (0 och 0x)")
         print("6. Beräkna totalen av en blandad list(Hex och dec)")
         print("7. Validera ett hexadecimalt tal")
+        print("8. Validera en lista av hexadecimala tal")
         print("9. Avsluta \n")
 
         user_menu_choice = int(input("Vilken funktion vill du köra?"))
@@ -228,15 +240,17 @@ while running:
             else: 
                 mix_list_running = False
 
-        # Asks for output format. Sets output_form according to choice to submit to func later
+        # Asks for output format. Sets output_form according to choice to submit to func later. Deafults to d if input isnt h or d
         print("Vill du has resultatet i decimal(d) eller hexadecimal(h)?")
+        print("Om något annat anges sätts decimalt(d) som format")
         result_type = input("Ange d eller h: ")
 
         if result_type.upper() == "D":
             output_form = "d"
-
         elif result_type.upper() == "H":
             output_form = "h"
+        else:
+            output_form = "d"
         
         # Prints submitted list and gives info on output result. Continues on any input 
         print("Din lista med tal: ")
@@ -260,6 +274,37 @@ while running:
         # Validates if user input is a valid hexadecimal
         tal = validate_hexa(input("Ange ett hexadecimalt tal: "))
         print(tal)
+
+    # Checks menu choice for list hexadecimal number validation
+    elif user_menu_choice == 8:
+        # Bool for while loop
+        adding = True
+        # Empty list fopr user input
+        validation_list = []
+
+        while adding:
+            # if validation list isn't empty, print it
+            if len(validation_list) != 0:
+                print(f"Din lista innehåller: {validation_list}")
+
+            # if user enters y then ask for element to add and append to list
+            if input("Vill du lägga till element till listan? \n Y för ja annars tryck på valfri tangent: ").upper() == "Y":
+                print("Ange ett element du vill validera:")
+                add_to_validation_list = input()
+                validation_list.append(add_to_validation_list)
+            else:
+                adding = False
+        # Prints validated list and original list
+        print("---------------")
+        print("Dessa är giltiga hexadecimala tal från din lista")
+        print(valid_hexa_list(validation_list))
+        print("---------------")
+        print("Från din ursprungliga lista som var")
+        print(validation_list)
+        print("---------------")
+        # Pauses so user can read, then sets menu choice to main (0)
+        input("Tryck enter för att gå tillbaka till huvudmenyn")
+        user_menu_choice = 0
 
     # check user input for exit app, stops while loop
     elif user_menu_choice == 9:
