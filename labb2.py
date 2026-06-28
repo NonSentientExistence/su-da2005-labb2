@@ -61,11 +61,9 @@ def deci_to_hexa(tal):
         # If quotient is 0, stop calc while loop by setting condition variable to false
         if quotient == 0:
             calculating = False
-            continue
         # if quotient isn't 0, set tal to calculated quotient and run again
         else:
             tal = quotient
-            continue
 
     return result
 
@@ -75,23 +73,25 @@ def remove_prefix(hexa):
     # Set hexa to uppercase
     hexa = hexa.upper()
 
+    # Check for inital 0x prefix, remove if found
+    if hexa[:2] == "0X":
+        hexa = hexa[2:]
+
     while cleaning:
 
         # Check if hexa string is empty and if true, set hexa to 0 and stop loop
         if hexa == "":
             hexa = "0"
             cleaning = False
-            continue
-        # check if the first char in hexa is 0 or X
+        # Refactored to check for 0x or 0 prefix before loop. Incorrect return if input is i.e. 0x00000x, would return 0 when it should be X
+        # check if the first char in hexa is 0
         # if true, save new string without first char into hexa var
-        # Could be refactored to check for 0X before while loop since that only has to be cleaned once
         # Could also be refactored to use left slice to cut first char. Unsure if allowed so used this. 
-        elif hexa[0] == "X" or hexa[0] == "0":
+        elif hexa[0] == "0":
             hexa = hexa[1:]
         # if lead char in hexa isn't X or 0, stop while loop
         else:
             cleaning = False
-            continue
 
     return hexa
 
@@ -118,6 +118,22 @@ def add_mixed_list(input_list, output_form):
         print("Ogiltigt utformat angivet, ange h eller d")
         return
     
+def validate_hexa(hexa):
+    # Cleans prefix and leading zeros. Remove prefix also sets hexa to upper case for compare
+    clean_hexa = remove_prefix(hexa)
+
+    #var to hold valid hexadecimal chars.
+    hexa_chars = "0123456789ABCDEF"
+
+    # Iterates through all chars hexa and validates that it only contains valid hexadecimal characters.
+    for n in clean_hexa:
+        if n not in hexa_chars:
+            return False
+        
+    return True
+
+    
+    
 
 # Bool for while loop
 running = True
@@ -135,6 +151,7 @@ while running:
         print("4. Heltal till hexadecimal konvertering")
         print("5. Ta bort prefix från Hexadecimalt tal (0 och x)")
         print("6. Beräkna totalen av en blandad list(Hex och dec)")
+        print("7. Validera ett hexadecimalt tal")
         print("9. Avsluta \n")
 
         user_menu_choice = int(input("Vilken funktion vill du köra?"))
@@ -210,7 +227,6 @@ while running:
                 continue
             else: 
                 mix_list_running = False
-                continue
 
         # Asks for output format. Sets output_form according to choice to submit to func later
         print("Vill du has resultatet i decimal(d) eller hexadecimal(h)?")
@@ -239,7 +255,12 @@ while running:
         
         user_menu_choice = 0
         
+    # Checks menu choice for single hexadecimal number validation
+    elif user_menu_choice == 7:
+        # Validates if user input is a valid hexadecimal
+        tal = validate_hexa(input("Ange ett hexadecimalt tal: "))
+        print(tal)
+
     # check user input for exit app, stops while loop
     elif user_menu_choice == 9:
         running = False
-        continue
