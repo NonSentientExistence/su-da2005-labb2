@@ -95,6 +95,30 @@ def remove_prefix(hexa):
 
     return hexa
 
+def add_mixed_list(input_list, output_form):
+    # Result var to calc total in dec
+    total_dec = 0
+    # Splice in all elements in list into new list to ensure org list remains unchanged
+    # Current function will not alter the list, protects against expanding the function where it could alter the original list
+    calc_list = input_list[:]
+    
+    # Calculate addition result of input list into decimal
+    for n in calc_list:
+        if type(n) is int:
+            total_dec += n
+        elif type(n) is str:
+            total_dec += hexa_to_deci(remove_prefix(n))      
+    
+    # Checks output_form for requested output format. Converts to hex if hexadecimal has been requested
+    if output_form.upper() == "H":
+        return deci_to_hexa(total_dec)
+    elif output_form.upper() == "D":
+        return total_dec
+    else:
+        print("Ogiltigt utformat angivet, ange h eller d")
+        return
+    
+
 # Bool for while loop
 running = True
 # Default for user menu choice (0 = main menu)
@@ -110,6 +134,7 @@ while running:
         print("3. Hexadecimalt till heltal konvertering")
         print("4. Heltal till hexadecimal konvertering")
         print("5. Ta bort prefix från Hexadecimalt tal (0 och x)")
+        print("6. Beräkna totalen av en blandad list(Hex och dec)")
         print("9. Avsluta \n")
 
         user_menu_choice = int(input("Vilken funktion vill du köra?"))
@@ -145,6 +170,75 @@ while running:
         tal = remove_prefix(input("Ange ett hexadecimalt tal: "))
         print(tal)
 
+    # Checks menu choice for add mixed list
+    elif user_menu_choice == 6:
+        # Var for menu choice in this sub func
+            
+        # Empty list to submit to function
+        submit_list = []
+
+        #bool 
+        mix_list_running = True
+
+        #If submenu choice 1, let user input element to add to list
+        while mix_list_running: 
+
+            # User input, kind of number to add. Just for sorting input into the submit list
+            print("Lägga till hexadecimalt eller decimal tal? (h/d) : ")
+            hex_or_dec = input()
+
+            # if for ensuring input is added correctly to input list. 
+            if hex_or_dec.upper() == "H":
+                add_to_list = input("Ange ett hexadecimalt tal att lägga till i listan: ")
+                submit_list.append(add_to_list)
+            # Checks if string is only numbers, if true then covert to int before adding to list
+            elif hex_or_dec.upper() == "D":
+                add_to_list = input("Ange ett heltal att lägga till i listan: ")
+                if add_to_list.isdigit():
+                    submit_list.append(int(add_to_list))
+                else:
+                    input("Ogiltigt heltal, försök igen. Tryck på valfri tangent...")
+            else: 
+                input("Ogiltigt utdata val, välj d eller h. Tryck på valfri tangent för att börja om...")
+            
+            # Print current list
+            print("Din nuvarande lista innehåller följande tal: ")
+            print(submit_list)
+            # if input is y then continue add number loop. Anything else, stop loop
+            add_more = input("Lägga till ett till tal? (y för ja, annars valfritangent)")
+            if add_more.upper() == "Y":
+                continue
+            else: 
+                mix_list_running = False
+                continue
+
+        # Asks for output format. Sets output_form according to choice to submit to func later
+        print("Vill du has resultatet i decimal(d) eller hexadecimal(h)?")
+        result_type = input("Ange d eller h: ")
+
+        if result_type.upper() == "D":
+            output_form = "d"
+
+        elif result_type.upper() == "H":
+            output_form = "h"
+        
+        # Prints submitted list and gives info on output result. Continues on any input 
+        print("Din lista med tal: ")
+        print(submit_list)
+        print(f"Resultatet fås i hexadecimalt (H) eller i decimalt (D): {output_form.upper()}")
+        input("Tryck enter för att fortsätta...")
+
+        # Prints result of calculated list. Then prints original list to confirm it hasn't been modified 
+        print(f"\nResultatet är :")
+        print(add_mixed_list(submit_list,output_form))
+        print(f"\nDin ursprunliga lista var :")
+        print(submit_list)
+        # Awaits any input so user can read. Clears list before sending user to main menu
+        input("Tryck enter för att fortsätta...")
+        submit_list.clear()
+        
+        user_menu_choice = 0
+        
     # check user input for exit app, stops while loop
     elif user_menu_choice == 9:
         running = False
